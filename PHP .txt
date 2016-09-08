@@ -1,0 +1,68 @@
+PHP written for Database my database class. 
+
+
+// *************************************************************************
+// all episodes page
+$app->get('/show_allEpisodes/{showID}', function (Silex\Application $app, $showID) {
+    // Create query to get the toy with the given toynum
+    $db = $app['db'];
+    // gets all episodes for a selected show displays them in table
+    $query = "SELECT s.title AS showTitle, s.showID, e.title, e.episodeID, e.airdate, LEFT(e.episodeID,1) as season 
+	FROM episode e, shows s WHERE  e.showID=s.showID AND s.showID = ?";
+    $results = queryDB($db, $query, array($showID));
+    
+     return $app['twig']->render('show_allEpisodes.html.twig', array(
+     	'pageTitle'=>'showID',
+        'results' => $results
+    ));
+});
+
+// *************************************************************************
+// episode info 
+$app->get('/episodeInfo/{showID}&{episodeID}', function (Silex\Application $app, $showID, $episodeID) {
+    // Create query to get the episode information with the given showid and episode id
+    $db = $app['db'];
+    $query = "SELECT s.title AS showTitle, e.title, e.airdate, s.showID, e.episodeID 
+    FROM shows s, episode e
+    WHERE e.episodeID = ? AND e.showID = s.showID AND s.showID =?";
+    $results = queryDB($db, $query, array($episodeID,$showID));
+    
+    //selects the name role and actor id from the main cast for the episode 
+    
+    $query = "SELECT a.fname, a.lname, m.role,a.actID
+    	FROM shows s, actors a, main_cast m
+	where a.actID = m.actorID and s.showID = m.showID and s.showID = ?";
+    $mainCast = queryDB($db, $query, array($showID));
+    
+    //checks to see if a user is logged in if so allows user to add show to be watched
+    
+    if ($app['session']->get('is_user')) {
+		$user = $app['session']->get('user');
+	}
+	else {
+		$user = '';
+	}
+	
+    
+    //query to get reocurring cast of episode
+    $query = "SELECT a.actID, a.fname, a.lname, r.role, s.showID
+	FROM shows s, actors a, recurring_cast r, episode e
+	where a.actID = r.actorID and s.showID = r.showID and s.showID = ?
+	 AND e.episodeID = r.episodeID AND r.episodeID = ?
+	GROUP BY a.actID";
+	
+    $recurringCast= queryDB($db, $query, array($showID,$episodeID));
+    $query = "SELECT s.title AS showTitle, e.title, s.showID, e.episodeID 
+    FROM shows s, episode e
+    WHERE e.episodeID = ? AND e.showID = s.showID AND s.showID =?";
+    $hasWatched= queryDB($db, $query, array($episodeID,$showID));
+    
+     return $app['twig']->render('episodeInfo.html.twig', array(
+     	'pageTitle'=>'showID'&'episodeID',
+        'results' => $results,
+        'mainCast' => $mainCast,
+        'recurringCast' => $recurringCast,
+        'hasWatched' =>$hasWatched,
+        'user' => $user
+    ));
+});

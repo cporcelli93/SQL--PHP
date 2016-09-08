@@ -1,0 +1,50 @@
+CREATE TABLE SQL-
+Actors Table
+CREATE TABLE `connorpo_streamTV`. ( `actID` VARCHAR(20) NOT NULL , `fname` VARCHAR(40) NOT NULL , `lname` VARCHAR(40) NOT NULL , PRIMARY KEY (`actID`) ) ENGINE = MyISAM;
+
+customer Table
+CREATE TABLE `connorpo_streamTV`. ( `creditcard` VARCHAR(20) NOT NULL , `fname` VARCHAR(40) NOT NULL , `lname` VARCHAR(40) NOT NULL ,
+ `custID` VARCHAR(20) NOT NULL , `email` VARCHAR(40) NOT NULL , `membersince` DATE NOT NULL , `renewaldate` DATE NOT NULL , `password` VARCHAR(255) NOT NULL ,
+ `username` VARCHAR(60) NOT NULL , PRIMARY KEY (`creditcard`, `custID`) ) ENGINE = MyISAM;
+ 
+ cust_queue 
+CREATE TABLE `connorpo_streamTV`. ( `custID` VARCHAR(20) NOT NULL , `showID` VARCHAR(20) NOT NULL , `date` DATE NOT NULL 
+, PRIMARY KEY (`custID`, `showID`) ) ENGINE = MyISAM;
+
+episodes
+CREATE TABLE `connorpo_streamTV`. ( `showID` VARCHAR(20) NOT NULL , `episodeID` VARCHAR(20) NOT NULL 
+, `airdate` DATE NOT NULL , `title` VARCHAR(60) NOT NULL , PRIMARY KEY (`showID`, `episodeID`) ) ENGINE = MyISAM;
+
+main_cast
+CREATE TABLE `connorpo_streamTV`. ( `showID` VARCHAR(20) NOT NULL , `actorID` VARCHAR(20) NOT NULL ,
+`role` VARCHAR NOT NULL , PRIMARY KEY (`showID`, `actorID`) ) ENGINE = MyISAM;
+
+recurring_cast
+CREATE TABLE `connorpo_streamTV`. ( `showID` VARCHAR(20) NOT NULL , `actorID` VARCHAR(20) NOT NULL , `episodeID` VARCHAR(20) NOT NULL , 
+`Role` VARCHAR(30) NOT NULL , PRIMARY KEY (`showID`, `actorID`, `episodeID`) ) ENGINE = MyISAM;
+
+shows table
+CREATE TABLE `connorpo_streamTV`. ( `catagory` VARCHAR(30) NOT NULL , `creator` VARCHAR(50) NOT NULL , 
+`network` VARCHAR(20) NOT NULL , `premiere_year` INT(10) NOT NULL , `showID` VARCHAR(30) NOT NULL , 
+`title` VARCHAR(60) NOT NULL , PRIMARY KEY (`catagory`, `creator`, `network`, `showID`) ) ENGINE = MyISAM;
+
+
+
+
+watched
+
+CREATE TABLE `connorpo_streamTV`. ( `custID` VARCHAR(50) NOT NULL , `datewatched` VARCHAR(20) NOT NULL , 
+`episodeID` VARCHAR(30) NOT NULL , `showID` DATE NOT NULL , PRIMARY KEY (, `custID`, `datewatched`, `showID`, `episodeID`) ) ENGINE = MyISAM;
+
+
+INSERT command SQL
+
+INSERT INTO `shows`(`showID`, `title`, `premiere_year`, `network`, `creator`, `catagory`) VALUES ("sh001","30 Rock","2006","NBC","Tina Fey","comedy")
+INSERT INTO `shows`(`showID`, `title`, `premiere_year`, `network`, `creator`, `catagory`) VALUES ("sh002","Arrested Devlopment","2003","fox/Netflix","Michael Hurwitz","comedy")
+INSERT INTO `shows`(`showID`, `title`, `premiere_year`, `network`, `creator`, `catagory`) VALUES ("sh003","Community","2009","NBC","dan Harmon","comedy")
+INSERT INTO `shows`(`showID`, `title`, `premiere_year`, `network`, `creator`, `catagory`) VALUES ("sh004","Friday Night Ligts","2006","NBC/DirectTV","peter Burg","drama")
+INSERT INTO `shows`(`showID`, `title`, `premiere_year`, `network`, `creator`, `catagory`) VALUES ("sh005","How I Met Your Mother","2005","CBS","Carter Bays","comedy")
+INSERT INTO `shows`(`showID`, `title`, `premiere_year`, `network`, `creator`, `catagory`) VALUES ("sh006","Lost","2004","ABC","J.J. Abrams","drama")
+INSERT INTO `shows`(`showID`, `title`, `premiere_year`, `network`, `creator`, `catagory`) VALUES ("sh007","Mad Men","2007","NBC","Matthew Weiner","drama")
+INSERT INTO `shows`(`showID`, `title`, `premiere_year`, `network`, `creator`, `catagory`) VALUES ("sh008","Parks and Recreation","2009","NBC","Michael Schur","comedy")
+INSERT INTO `shows`(`showID`, `title`, `premiere_year`, `network`, `creator`, `catagory`) VALUES ("sh009","Parenthood","2010","NBC","Jason Katims","drama")
